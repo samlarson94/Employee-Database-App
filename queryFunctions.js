@@ -3,7 +3,6 @@ const cTable = require('console.table');
 function allDepts() {
     db.query('SELECT * FROM department', function (err, results) {
         console.table(results);
-        // startApp();
     });
 }
 
@@ -13,6 +12,12 @@ function allRoles() {
     });
 }
 
+function allEmployees() {
+    db.query('SELECT * FROM employees', function (err, results) {
+        console.table(results);
+    })
+}
+
 function addDepartment(dept_name) {
     db.query('INSERT INTO department (dept_name) VALUES (?)', dept_name, function (err, results) {
         console.log("Department created successfully!")
@@ -20,10 +25,23 @@ function addDepartment(dept_name) {
     })
 }
 
+function addRole(role_name) {
+    db.query('INSERT INTO employee_role (title) VALUES (?)', role_name, function (err, results) {
+        console.log("Role created successfully!")
+        console.log(err);
+    })
+}
+
+// function addRole(department_name) {
+//     db.query('INSERT INTO ')
+// }
+
 module.exports = {
     allDepts,
     allRoles,
-    addDepartment
+    allEmployees,
+    addDepartment,
+    addRole,
     
 }
 
