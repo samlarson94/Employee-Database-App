@@ -1,5 +1,6 @@
 const db = require('./connection')
 const cTable = require('console.table');
+
 function allDepts() {
     db.query('SELECT * FROM department', function (err, results) {
         console.table(results);
@@ -19,7 +20,7 @@ function allEmployees() {
 }
 
 function addDepartment(dept_name, dept_id) {
-    db.query('INSERT INTO department (dept_name, dept_id) VALUES (?, ?)', [dept_name, dept_id], function (err, results) {
+    db.query('INSERT INTO department (id, dept_name) VALUES (?, ?)', [dept_id, dept_name], function (err, results) {
         console.log("Department created successfully!")
         console.log(err);
     })
@@ -32,18 +33,21 @@ function addRole(role_id, role_name, role_salary, dept_id) {
     })
 }
 
-function removeRole() {
 
-}
-
-function addEmployee() {
-    db.query('') //Insert into employees table id, first_name, last_name, role_id, manager_id
+function addEmployee(employee_first, employee_last, role_id, employee_manager) {
+    db.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employee_first, employee_last, role_id, employee_manager], function (err, results) {
+        console.log("New employee has been added to the database.")
+    }) 
 }
 
 function removeEmployee() {
-
+    db.query('')
 }
 
+
+function removeRole() {
+    db.query('')
+}
 
 function updateEmployee() {
 

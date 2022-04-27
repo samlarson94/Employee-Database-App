@@ -2,9 +2,9 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 const cTable = require('console.table');
 
-const { allDepts, allRoles, allEmployees, addDepartment, addRole } = require('./queryFunctions')
+const { allDepts, allRoles, allEmployees, addDepartment, addRole, addEmployee } = require('./queryFunctions')
 
-const opt = ["ALL_DEPT", "ALL_ROLES", "ALL_EMPLOYEES", "ADD_DEPARTMENT", "ADD_ROLE"];
+const opt = ["ALL_DEPT", "ALL_ROLES", "ALL_EMPLOYEES", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE"];
 function startApp() {
     inquirer.prompt([
         {
@@ -18,24 +18,44 @@ function startApp() {
             console.log(ans);
             switch (ans.userview) {
                 case opt[0]:
-                    allDepts();
+                    allDepartments();
                     break;
                 case opt[1]:
-                    allRoles();
+                    viewAllRoles();
                     break;
                 case opt[2]:
-                    allEmployees();
+                    viewAllEmployees();
                     break;
                 case opt[3]:
                     createDepartment();
                     break;
                 case opt[4]:
                     createRole();
+                    break;
+                case opt[5]:
+                    createEmployee();
                 default:
                     break;
             }
         })
 }
+
+function allDepartments () {
+    allDepts();
+    startApp();
+};
+
+function viewAllRoles () {
+    allRoles();
+    startApp();
+};
+
+function viewAllEmployees () {
+    allEmployees();
+    startApp();
+};
+
+
 
 function createDepartment () {
     inquirer.prompt(
@@ -65,7 +85,8 @@ function createRole () {
             type: "input",
             name: "role_id",
             message: "What is the id number for this role?"
-        },{
+        },
+        {
             type: "input",
             name: "dept_id",
             message: "What is the Department id for this role?"
@@ -87,6 +108,41 @@ function createRole () {
         addRole(ans.role_id, ans.role_name, ans.role_salary, ans.dept_id);
         startApp();
     })
+};
+
+function createEmployee () { 
+    inquirer.prompt(
+        [{
+            type: "input",
+            name: "employee_first",
+            message: "What is the employee's first name?"
+        },{
+            type: "input",
+            name: "employee_last",
+            message: "What is the employee's last name?"
+        },
+        {
+            type: "list",
+            name: "role_id",
+            message: "What is the employee's role id?",
+            choices: [] //Push choices from employee_role table
+        },
+        {
+            type: "list",
+            name: "employee_manager",
+            message: "Who is this employee's manager?",
+            choices: [] //Push choices from employee table
+        }]
+        
+    )
+    .then((ans) => {
+        console.log(ans);
+        addEmployee(ans.employee_first, ans.employee_last, ans.role_id, ans.employee_manager);
+        startApp();
+    })
 }
+
+
+
 
 startApp();
