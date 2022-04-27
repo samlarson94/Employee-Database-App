@@ -18,7 +18,6 @@ function startApp() {
             console.log(ans);
             switch (ans.userview) {
                 case opt[0]:
-                    // queryFunctions.allDepts();
                     allDepts();
                     break;
                 case opt[1]:
@@ -40,11 +39,17 @@ function startApp() {
 
 function createDepartment () {
     inquirer.prompt(
-        {
+        [{
             type:"input",
             name:"department_name",
             message:"What is the name of the department?"
         },
+        {
+            type:"input",
+            name: "department_id_num",
+            message: "What is the id number of the department?"
+
+        }]
 
     )
     .then((ans) => {
@@ -56,22 +61,30 @@ function createDepartment () {
 
 function createRole () { 
     inquirer.prompt(
+        [{
+            type: "input",
+            name: "role_id",
+            message: "What is the id number for this role?"
+        },{
+            type: "input",
+            name: "dept_id",
+            message: "What is the Department id for this role?"
+        },
         {
             type: "input",
             name: "role_name",
             message: "What is the name of the role?"
         },
-        // {
-        //     type: "list",
-        //     name: "department_name",
-        //     message: "Which Department does the role belong to?",
-        //     choices: ['Accounting', 'Legal']
-        // },
+        {
+            type: "input",
+            name: "role_salary",
+            message: "What is the salary for this role?"
+        }],
+        
     )
     .then((ans) => {
         console.log(ans);
-        addRole(ans.role_name);
-        // addDepartment(ans.department_name);
+        addRole(ans.role_id, ans.role_name, ans.role_salary, ans.dept_id);
         startApp();
     })
 }

@@ -18,18 +18,43 @@ function allEmployees() {
     })
 }
 
-function addDepartment(dept_name) {
-    db.query('INSERT INTO department (dept_name) VALUES (?)', dept_name, function (err, results) {
+function addDepartment(dept_name, dept_id) {
+    db.query('INSERT INTO department (dept_name, dept_id) VALUES (?, ?)', [dept_name, dept_id], function (err, results) {
         console.log("Department created successfully!")
         console.log(err);
     })
 }
 
-function addRole(role_name) {
-    db.query('INSERT INTO employee_role (title) VALUES (?)', role_name, function (err, results) {
+function addRole(role_id, role_name, role_salary, dept_id) {
+    db.query('INSERT INTO employee_role (id, title, salary, dept_id) VALUES (?, ?, ?, ?)', [role_id, role_name, role_salary, dept_id] , function (err, results) {
         console.log("Role created successfully!")
         console.log(err);
     })
+}
+
+function removeRole() {
+
+}
+
+function addEmployee() {
+    db.query('') //Insert into employees table id, first_name, last_name, role_id, manager_id
+}
+
+function removeEmployee() {
+
+}
+
+
+function updateEmployee() {
+
+}
+
+function updateEmployeeManager() {
+
+}
+
+function exit() {
+    console.log("Goodbye!");
 }
 
 // function addRole(department_name) {
