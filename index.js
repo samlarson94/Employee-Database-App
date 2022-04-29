@@ -229,18 +229,24 @@ getAllDepartments((err, dept_data) => {
             choices: departments
         }],
      )
-     .then((ans) => {
-        var dept_id = dept_data.reduce((acc, dept) => {
-            if (dept.dept_name === ans.dept_id) {
-                return dept.id;
-            }else{
-                return acc;
-            }
-        },0);
-
-        removeDepartment(ans.role_id, ans.role_name, ans.role_salary, dept_id);
+    //  .then((ans) => {
+    //     var dept_id = dept_data.reduce((acc, dept) => {
+    //         if (dept.dept_name === ans.dept_id) {
+    //             console.log(dept_id);
+    //             return dept.id;
+    //         }else{
+    //             return acc;
+    //         }
+    //     },0);
+    .then((ans) => {
+        console.log(ans);
+        removeDepartment(ans.dept_id);
         startApp();
     })
+
+    //     removeDepartment(dept_id);
+    //     startApp();
+    // })
 })}
 
 //DELETE ROLE
@@ -251,6 +257,10 @@ function deleteRole() {
 //DELETE EMPLOYEE
 function deleteEmployee() {
 
+}
+
+function leaveApp() {
+    console.log("Good Bye!");
 }
 
 startApp();
