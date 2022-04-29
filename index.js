@@ -218,7 +218,30 @@ function createEmployee () {
 //DELETE DEPT
 function deleteDepartment() {
 
-}
+getAllDepartments((err, dept_data) => {
+     let departments = dept_data.map(dept => dept.dept_name);
+
+     inquirer.prompt(
+        [{
+            type: "list",
+            name: "dept_delete",
+            message: "Which department do you wish to delete?",
+            choices: departments
+        }],
+     )
+     .then((ans) => {
+        var dept_id = dept_data.reduce((acc, dept) => {
+            if (dept.dept_name === ans.dept_id) {
+                return dept.id;
+            }else{
+                return acc;
+            }
+        },0);
+
+        removeDepartment(ans.role_id, ans.role_name, ans.role_salary, dept_id);
+        startApp();
+    })
+})}
 
 //DELETE ROLE
 function deleteRole() {

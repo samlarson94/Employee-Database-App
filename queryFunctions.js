@@ -57,16 +57,16 @@ function addEmployee(employee_first, employee_last, role_id, employee_manager) {
     }) 
 }
 
+function removeDepartment() {
+    db.query('DELETE FROM department WHERE dept_name = ?') //FINISH QUERY
+}
+
 function removeEmployee() {
     db.query('')
 }
 
 
 function removeRole() {
-    db.query('')
-}
-
-function removeDepartment() {
     db.query('')
 }
 
