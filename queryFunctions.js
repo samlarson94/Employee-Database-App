@@ -13,6 +13,16 @@ function allRoles() {
     });
 }
 
+function getAllRoles(a) {
+    let allRoles = [];
+    db.query('SELECT title, id FROM employee_role', a);
+}
+
+function getAllEmployees(a) {
+    let allEmployees = [];
+    db.query('SELECT first_name, last_name, id FROM employees', a)
+}
+
 function allEmployees() {
     db.query('SELECT * FROM employees', function (err, results) {
         console.table(results);
@@ -37,6 +47,8 @@ function addRole(role_id, role_name, role_salary, dept_id) {
 function addEmployee(employee_first, employee_last, role_id, employee_manager) {
     db.query('INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)', [employee_first, employee_last, role_id, employee_manager], function (err, results) {
         console.log("New employee has been added to the database.")
+        console.log(err);
+        
     }) 
 }
 
@@ -71,6 +83,9 @@ module.exports = {
     allEmployees,
     addDepartment,
     addRole,
+    getAllRoles,
+    getAllEmployees, 
+    addEmployee
     
 }
 
