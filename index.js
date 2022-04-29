@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 const cTable = require('console.table');
 
-const { allDepts, allRoles, allEmployees, addDepartment, addRole, addEmployee, getAllRoles, getAllEmployees } = require('./queryFunctions')
+const { allDepts, allRoles, allEmployees, addDepartment, addRole, addEmployee, getAllRoles, getAllEmployees, getAllDepartments } = require('./queryFunctions')
 
 const opt = ["ALL_DEPT", "ALL_ROLES", "ALL_EMPLOYEES", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE"];
 function startApp() {
@@ -80,16 +80,16 @@ function createDepartment () {
 }
 
 function createRole () { 
+   
+    getAllDepartments((err, dept_data) => {
+        let departments = dept_data.map(dept => dept.dept_name);
+
     inquirer.prompt(
         [{
-            type: "input",
-            name: "role_id",
-            message: "What is the id number for this role?"
-        },
-        {
-            type: "input",
+            type: "list",
             name: "dept_id",
-            message: "What is the Department id for this role?"
+            message: "Which department does this role belong to?", 
+            choices: departments
         },
         {
             type: "input",
@@ -104,15 +104,24 @@ function createRole () {
         
     )
     .then((ans) => {
-        console.log(ans);
-        addRole(ans.role_id, ans.role_name, ans.role_salary, ans.dept_id);
+        var dept_id = dept_data.reduce((acc, dept) => {
+            if (dept.dept_name === ans.dept_id) {
+                return dept.id;
+            }else{
+                return acc;
+            }
+        },0);
+
+        addRole(ans.role_id, ans.role_name, ans.role_salary, dept_id);
         startApp();
     })
-};
+});
+}
 
 function createEmployee () { 
-    
-   
+
+    //The following functions bring data in from db query functions and map them into an empty an empty array.  
+        //These variables are used below for choice-based prompts.
     getAllRoles((err, role_data) => {
         let roles = role_data.map(role => role.title);
         console.log(role_data);
@@ -156,10 +165,7 @@ function createEmployee () {
             },0);
 
             var manager_id = employee_data.reduce((acc, employee) => {
-                console.log(employee);
-                console.log(ans.employee_manager);
                 if (employee.first_name + " " + employee.last_name === ans.employee_manager) {
-                    console.log("true");
                     return employee.id;
                 }else{
                     return acc;
@@ -169,12 +175,8 @@ function createEmployee () {
             addEmployee(ans.employee_first, ans.employee_last, role_id, manager_id);
             startApp();
         })
-
     })
-
 });
-
-   
 }
 
 

@@ -23,6 +23,11 @@ function getAllEmployees(a) {
     db.query('SELECT first_name, last_name, id FROM employees', a)
 }
 
+function getAllDepartments(a) {
+    let allDepartments = [];
+    db.query('SELECT id, dept_name FROM department', a);
+}
+
 function allEmployees() {
     db.query('SELECT * FROM employees', function (err, results) {
         console.table(results);
@@ -85,7 +90,8 @@ module.exports = {
     addRole,
     getAllRoles,
     getAllEmployees, 
-    addEmployee
+    addEmployee, 
+    getAllDepartments
     
 }
 
