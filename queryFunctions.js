@@ -66,6 +66,10 @@ function removeRole() {
     db.query('')
 }
 
+function removeDepartment() {
+    db.query('')
+}
+
 function updateEmployee() {
 
 }
@@ -91,7 +95,10 @@ module.exports = {
     getAllRoles,
     getAllEmployees, 
     addEmployee, 
-    getAllDepartments
+    getAllDepartments, 
+    removeEmployee,
+    removeRole,
+    removeDepartment
     
 }
 

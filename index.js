@@ -2,9 +2,32 @@ const inquirer = require('inquirer');
 require('dotenv').config();
 const cTable = require('console.table');
 
-const { allDepts, allRoles, allEmployees, addDepartment, addRole, addEmployee, getAllRoles, getAllEmployees, getAllDepartments } = require('./queryFunctions')
+const { allDepts,
+        allRoles,
+        allEmployees,
+        addDepartment,
+        addRole,
+        addEmployee,
+        getAllRoles,
+        getAllEmployees,
+        getAllDepartments,
+        removeEmployee,
+        removeRole,
+        removeDepartment} = require('./queryFunctions')
 
-const opt = ["ALL_DEPT", "ALL_ROLES", "ALL_EMPLOYEES", "ADD_DEPARTMENT", "ADD_ROLE", "ADD_EMPLOYEE"];
+const opt = [
+    "VIEW ALL DEPARTMENTS",
+    "VIEW ALL ROLES",
+    "VIEW ALL EMPLOYEES",
+    "ADD DEPARTMENT", 
+    "ADD ROLE",
+    "ADD EMPLOYEE",
+    "REMOVE DEPARTMENT",
+    "REMOVE ROLE",
+    "REMOVE EMPLOYEE",
+    "---- EXIT APP ----"
+];
+
 function startApp() {
     inquirer.prompt([
         {
@@ -34,12 +57,25 @@ function startApp() {
                     break;
                 case opt[5]:
                     createEmployee();
+                case opt[6]:
+                    deleteDepartment();
+                    break;
+                case opt[7]:
+                    deleteRole();
+                    break;
+                case opt[8]:
+                    deleteEmployee();
+                    break;
+                case opt[9]:
+                    leaveApp();
+                    break;
                 default:
                     break;
             }
         })
 }
 
+// VIEW-ONLY QUERIES
 function allDepartments () {
     allDepts();
     startApp();
@@ -56,7 +92,7 @@ function viewAllEmployees () {
 };
 
 
-
+//ADD DEPARTMENT TO DATABASE
 function createDepartment () {
     inquirer.prompt(
         [{
@@ -79,6 +115,7 @@ function createDepartment () {
     })
 }
 
+//ADD ROLE TO DATABASE
 function createRole () { 
    
     getAllDepartments((err, dept_data) => {
@@ -118,18 +155,17 @@ function createRole () {
 });
 }
 
+//ADD EMPLOYEE TO DATABASE
 function createEmployee () { 
 
     //The following functions bring data in from db query functions and map them into an empty an empty array.  
         //These variables are used below for choice-based prompts.
     getAllRoles((err, role_data) => {
         let roles = role_data.map(role => role.title);
-        console.log(role_data);
        
    
     getAllEmployees((err, employee_data) => {
         let employees = employee_data.map(employee => employee.first_name + " " + employee.last_name);
-        console.log(employee_data);
 
         inquirer.prompt(
             [{
@@ -179,5 +215,19 @@ function createEmployee () {
 });
 }
 
+//DELETE DEPT
+function deleteDepartment() {
+
+}
+
+//DELETE ROLE
+function deleteRole() {
+
+}
+
+//DELETE EMPLOYEE
+function deleteEmployee() {
+
+}
 
 startApp();
